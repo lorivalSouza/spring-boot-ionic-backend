@@ -13,6 +13,7 @@ import com.lorival.cursomc.domain.Cidade;
 import com.lorival.cursomc.domain.Cliente;
 import com.lorival.cursomc.domain.Endereco;
 import com.lorival.cursomc.domain.Estado;
+import com.lorival.cursomc.domain.ItemPedido;
 import com.lorival.cursomc.domain.Pagamento;
 import com.lorival.cursomc.domain.PagamentoComBoleto;
 import com.lorival.cursomc.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.lorival.cursomc.repositories.CidadeRepository;
 import com.lorival.cursomc.repositories.ClienteRepository;
 import com.lorival.cursomc.repositories.EnderecoRepository;
 import com.lorival.cursomc.repositories.EstadoRepository;
+import com.lorival.cursomc.repositories.ItemPedidoRepository;
 import com.lorival.cursomc.repositories.PagamentoRepository;
 import com.lorival.cursomc.repositories.PedidoRepository;
 import com.lorival.cursomc.repositories.ProdutoRepository;
@@ -52,6 +54,9 @@ public class CursomcApplication implements CommandLineRunner{
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
@@ -107,8 +112,6 @@ public class CursomcApplication implements CommandLineRunner{
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
-	System.out.println("AAAAAAAAAAAAAAAAAAquisdf" +sdf);
-	
 	Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
 	
 	Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
@@ -122,6 +125,19 @@ public class CursomcApplication implements CommandLineRunner{
 	
 	pedidoRepository.save(Arrays.asList(ped1, ped2));
 	pagamentoRepository.save(Arrays.asList(pagto1, pagto2));
+	
+	ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+	ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+	ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+	
+	ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+	ped2.getItens().addAll(Arrays.asList(ip3));
+	
+	p1.getItens().addAll(Arrays.asList(ip1));
+	p2.getItens().addAll(Arrays.asList(ip3));
+	p3.getItens().addAll(Arrays.asList(ip3));
+	
+	itemPedidoRepository.save(Arrays.asList(ip1, ip2, ip3));
 	
 	}
 }

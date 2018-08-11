@@ -1,6 +1,6 @@
 package com.lorival.cursomc.domain;
 
-import java.io.Serializable;
+	import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.lorival.cursomc.domain.enums.TipoCliente;
 
 @Entity
 public class Endereco implements Serializable{
