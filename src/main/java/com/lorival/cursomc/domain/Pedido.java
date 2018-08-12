@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.couchbase.client.deps.com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Pedido implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -22,19 +25,24 @@ public class Pedido implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	private Date instante;
 	
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido")
+	@JsonManagedReference
 	private Pagamento pagamento;
 	
 	
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
+	@JsonManagedReference
 	private Cliente cliente;
 	
 	@ManyToOne
 	@JoinColumn(name="endereco_de_entrega_id")
 	private Endereco enderecoDeEntrega;
+	
 	
 	//Por ser set garate que não terá itemPedido repetido
 	@OneToMany(mappedBy="id.pedido")
