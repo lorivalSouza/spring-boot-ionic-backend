@@ -20,5 +20,11 @@ public class CategoriaService {
 		}
 		return obj;
 	}
+	
+	public Categoria insert(Categoria obj) {
+		//Garante que o id é null então é um objeto novo, se tiver valor será uma atualização e não uma insersão
+		obj.setId(null);
+		return repo.save(obj);
+	}
 
 }
