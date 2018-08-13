@@ -1,10 +1,12 @@
 package com.lorival.cursomc.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.lorival.cursomc.domain.Categoria;
 import com.lorival.cursomc.repositories.CategoriaRepository;
+import com.lorival.cursomc.sevices.exceptions.DataIntegrityException;
 import com.lorival.cursomc.sevices.exceptions.ObjectNotFoundException;
 
 @Service
@@ -31,6 +33,16 @@ public class CategoriaService {
 		//Verifica se Id existe
 		find(obj.getId());
 		return repo.save(obj);
+	}
+	
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.delete(id);
+		}catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possue produtos.");
+		}
+		
 	}
 
 }
