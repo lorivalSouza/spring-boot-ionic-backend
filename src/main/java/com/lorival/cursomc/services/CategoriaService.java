@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lorival.cursomc.domain.Categoria;
+import com.lorival.cursomc.dto.CategoriaDTO;
 import com.lorival.cursomc.repositories.CategoriaRepository;
 import com.lorival.cursomc.sevices.exceptions.DataIntegrityException;
 import com.lorival.cursomc.sevices.exceptions.ObjectNotFoundException;
@@ -58,6 +59,11 @@ public class CategoriaService {
 		
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	public Categoria fromCategoriaDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
+		
 	}
 
 }
