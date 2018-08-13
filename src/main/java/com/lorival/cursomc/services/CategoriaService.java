@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lorival.cursomc.domain.Categoria;
+import com.lorival.cursomc.domain.Cliente;
 import com.lorival.cursomc.dto.CategoriaDTO;
 import com.lorival.cursomc.repositories.CategoriaRepository;
 import com.lorival.cursomc.sevices.exceptions.DataIntegrityException;
@@ -37,8 +38,9 @@ public class CategoriaService {
 	
 	public Categoria update(Categoria obj) {
 		//Verifica se Id existe
-		find(obj.getId());
-		return repo.save(obj);
+		Categoria newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 	
 	public void delete(Integer id) {
@@ -65,5 +67,11 @@ public class CategoriaService {
 		return new Categoria(objDto.getId(), objDto.getNome());
 		
 	}
+	
+	//metodo auxiliar so vai ser usado dentro da classe por isso private
+		private void updateData(Categoria newObj, Categoria obj) {
+			newObj.setNome(obj.getNome());
+			
+		}
 
 }
