@@ -35,7 +35,6 @@ public class PedidoResource {
 		//Prepara para a proxima URI. Ex. se é categorias/1 ja traz com categorias/2 assim por diante, após salvar pega o getId() do objeto
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
-		System.out.println("URURURURURi "+uri);
 		return ResponseEntity.created(uri).build();
 	}
 }
