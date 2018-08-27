@@ -20,6 +20,7 @@ import com.lorival.cursomc.domain.PagamentoComCartao;
 import com.lorival.cursomc.domain.Pedido;
 import com.lorival.cursomc.domain.Produto;
 import com.lorival.cursomc.domain.enums.EstadoPagamento;
+import com.lorival.cursomc.domain.enums.Perfil;
 import com.lorival.cursomc.domain.enums.TipoCliente;
 import com.lorival.cursomc.repositories.CategoriaRepository;
 import com.lorival.cursomc.repositories.CidadeRepository;
@@ -134,9 +135,9 @@ public class DBService {
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 		
 		
-		Cliente cli2 = new Cliente(null, "Mario dod Santos", "mariosantos@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, pe.encode("123"));
-		
-		cli2.getTelefones().addAll(Arrays.asList("27363323", "99998585"));
+		Cliente cli2 = new Cliente(null, "Mario dod Santos", "lorival.psouza@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, pe.encode("123"));
+		cli2.addPerfil(Perfil.ADMIN);
+		cli2.getTelefones().addAll(Arrays.asList("999994444", "22222222"));
 		
 		Endereco e3 = new Endereco(null, "Rua Manoel da Nobrega", "300", "Apyo 303", "Centro", "38220834", cli2, c1);
 		
