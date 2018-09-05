@@ -14,11 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lorival.cursomc.domain.Cidade;
 import com.lorival.cursomc.domain.Cliente;
 import com.lorival.cursomc.domain.Endereco;
+import com.lorival.cursomc.domain.enums.Perfil;
 import com.lorival.cursomc.domain.enums.TipoCliente;
 import com.lorival.cursomc.dto.ClienteDTO;
 import com.lorival.cursomc.dto.ClienteNewDTO;
 import com.lorival.cursomc.repositories.ClienteRepository;
 import com.lorival.cursomc.repositories.EnderecoRepository;
+import com.lorival.cursomc.security.UserSS;
+import com.lorival.cursomc.sevices.exceptions.AuthorizationException;
 import com.lorival.cursomc.sevices.exceptions.DataIntegrityException;
 import com.lorival.cursomc.sevices.exceptions.ObjectNotFoundException;
 
@@ -44,7 +47,13 @@ public class ClienteService {
 		
 	}
 	
-	public Cliente find(Integer id) {		
+	public Cliente find(Integer id) {	
+		
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Cliente obj = repo.findOne(id);
 		if(obj == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo : " + Cliente.class.getName());
