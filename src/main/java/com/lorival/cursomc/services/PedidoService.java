@@ -3,16 +3,23 @@ package com.lorival.cursomc.services;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lorival.cursomc.domain.Cliente;
 import com.lorival.cursomc.domain.ItemPedido;
 import com.lorival.cursomc.domain.PagamentoComBoleto;
 import com.lorival.cursomc.domain.Pedido;
 import com.lorival.cursomc.domain.enums.EstadoPagamento;
+import com.lorival.cursomc.repositories.ClienteRepository;
 import com.lorival.cursomc.repositories.ItemPedidoRepository;
 import com.lorival.cursomc.repositories.PagamentoRepository;
 import com.lorival.cursomc.repositories.PedidoRepository;
+import com.lorival.cursomc.security.UserSS;
+import com.lorival.cursomc.sevices.exceptions.AuthorizationException;
 import com.lorival.cursomc.sevices.exceptions.ObjectNotFoundException;
 
 @Service
@@ -20,7 +27,7 @@ public class PedidoService {
 	
 	@Autowired
 	private PedidoRepository repo;
-	
+		
 	@Autowired
 	private BoletoService boletoService;
 	
@@ -69,6 +76,16 @@ public class PedidoService {
 		itemPedidoRepository.save(obj.getItens());
 		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
+	}
+	
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+		UserSS user = UserService.authenticated();
+		if(user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Cliente cliente = clienteService.find(user.getId());
+		return repo.findByCliente(cliente, pageRequest);
 	}
 
 }
