@@ -14,7 +14,6 @@ import com.lorival.cursomc.domain.ItemPedido;
 import com.lorival.cursomc.domain.PagamentoComBoleto;
 import com.lorival.cursomc.domain.Pedido;
 import com.lorival.cursomc.domain.enums.EstadoPagamento;
-import com.lorival.cursomc.repositories.ClienteRepository;
 import com.lorival.cursomc.repositories.ItemPedidoRepository;
 import com.lorival.cursomc.repositories.PagamentoRepository;
 import com.lorival.cursomc.repositories.PedidoRepository;
