@@ -1,5 +1,6 @@
 package com.lorival.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lorival.cursomc.domain.Cidade;
 import com.lorival.cursomc.domain.Cliente;
@@ -36,6 +38,9 @@ public class ClienteService {
 	
 	@Autowired
 	private BCryptPasswordEncoder pe;
+	
+	@Autowired
+	private S3Service s3service;
 	
 	@Transactional
 	public Cliente insert(Cliente obj) {
@@ -114,6 +119,11 @@ public class ClienteService {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
 		
+	}
+	
+	//método para enviar foto do perfil do cliente
+	public URI uploadPicture(MultipartFile multipartFile) {
+		return s3service.uploadFile(multipartFile);
 	}
 
 }
