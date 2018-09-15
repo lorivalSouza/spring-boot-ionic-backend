@@ -55,6 +55,10 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy="cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 	
+	//Salva a url da imagem no banco de dados
+	
+	private String imageUrl;
+	
 	public Cliente() {
 		addPerfil(Perfil.CLIENTE);
 	}
@@ -176,6 +180,14 @@ public class Cliente implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}	
 
 }
